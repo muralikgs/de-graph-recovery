@@ -1,67 +1,6 @@
 import numpy as np
 import cvxpy as cp
 
-'''
-def getSensingMatrix(rho_vec, n, dv, dc, A=1, method=1):
-    
-    nEdges = n * dv
-    
-    mTemp = nEdges / (np.arange(1, dc + 1).reshape(1, dc) @ rho_vec)
-    degreeDistribution = np.round(mTemp * rho_vec)
-    m = int(np.sum(degreeDistribution))
-    
-    print("Number of rows: {}".format(m))
-    
-    rowDegree = np.zeros(m)
-    rows = list(range(m))
-    
-    for i in range(dc):
-        if degreeDistribution[i] == 0:
-            continue
-            
-        sampledRows = np.random.choice(rows, int(degreeDistribution[i]), replace=False)
-        rowDegree[sampledRows] = i
-        rows = list(set(rows).difference(set(sampledRows)))
-    
-    excessEdges = np.sum(rowDegree) - nEdges
-    
-    # Removing excess edges
-    i = 0
-    while excessEdges > 0:
-        rowDegree[m-1-i] -= 1
-        i += 1
-        excessEdges = np.sum(rowDegree) - nEdges
-        
-    # Adding deficient edges
-    i = 0
-    while excessEdges < 0:
-        rowDegree[m-1-i] += 1
-        i += 1
-        excessEdges = np.sum(rowDegree) - nEdges
-
-    print("T Edges: {}".format(nEdges))
-    print("R Edges: {}".format(np.sum(rowDegree)))
-    print("Sensing Matrix Dimensions: {} X {}".format(m, n))
-    
-    A_mat = np.zeros((m, n))
-    if method == 1:
-        varEdgeLabel = [i for j in range(dv) for i in range(n)]
-        checkEdgeLabel = [i for i in range(m) for j in range(int(rowDegree[i]))]
-
-        edges = [(checkEdgeLabel[i], varEdgeLabel[i]) for i in range(nEdges)]
-        for edge in edges:
-            A_mat[edge[0], edge[1]] = 2*(np.random.rand(1) > 0.5) - 1
-
-    
-    elif method == 2:
-        for r in range(m):
-            sampledColumns = np.random.choice(list(range(n)), int(rowDegree[r]), replace=False)
-            A_mat[r, sampledColumns] = 2*(np.random.rand(int(rowDegree[r])) > 0.5) - 1
-            
-    A_mat *= 1/A**0.5
-    
-    return A_mat
-'''
 def getSensingMatrix(rho_vec, lambda_vec, n, A=1):
     dv = len(lambda_vec)
     dc = len(rho_vec)
