@@ -32,7 +32,7 @@ def getCovariance(Y, A, method='cvxpy', pen_coeff=0.5):
     Sig_Y = (1/Y.shape[0]) * Y.T @ Y
     if method == 'cxvpy':
         Cov_est = covarianceEstimate(Sig_Y, A, pen_coeff)
-    elif method == 'cxvpylayers':
+    elif method == 'cvxpylayers':
         Cov_est = covarianceEstimateTorch(A, Sig_Y, pen_coeff=pen_coeff)
     return Cov_est
 

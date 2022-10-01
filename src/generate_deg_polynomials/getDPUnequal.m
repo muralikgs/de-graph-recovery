@@ -5,8 +5,8 @@ n_hh = n_h^2;
 n_ll = n_l^2;
 n_hl = 2*n_l*n_h;
 
-beta_hh = 0.1*log(n_hh/k_hh);
-beta_ll = 0.1*log(n_ll/k_ll);
+beta_hh = 0.15*log(n_hh/k_hh);
+beta_ll = 0.15*log(n_ll/k_ll);
 
 k_hl = (2*k_hh*k_ll).^0.5;
 
