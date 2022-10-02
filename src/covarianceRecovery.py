@@ -36,11 +36,7 @@ def getCovariance(Y, A, method='cvxpy', pen_coeff=0.5):
         Cov_est = covarianceEstimateTorch(A, Sig_Y, pen_coeff=pen_coeff)
     return Cov_est
 
-def reorderCovariance(cov_r, intervention_set):
-    vertex_set = np.arange(cov_r.shape[0])
-    observed_set = np.setdiff1d(vertex_set, intervention_set)
-
-    indices = np.concatenate((intervention_set, observed_set))
+def reorderCovariance(cov_r, indices):
     rev_indices = np.argsort(indices)
     
     col_ind_r, row_ind_r = np.meshgrid(rev_indices, rev_indices)
@@ -48,13 +44,30 @@ def reorderCovariance(cov_r, intervention_set):
 
     return cov
 
+def process_int_covariances(int_covariance_list, indices_list, n_int, n_h):
+    cov_mat = np.zeros(int_covariance_list.shape)
+    
+    for int_cov_mat, indices in zip(int_covariance_list, indices_list):
+        col_ind, row_ind = np.meshgrid(indices, indices)
+        subblock_r, subblock_c = row_ind[:n_int, n_int:n_h], col_ind[:n_int, n_int:n_h]
+        cov_mat[subblock_r, subblock_c] = int_cov_mat[subblock_r, subblock_c]
+    
+    cov_mat = cov_mat + cov_mat.T
 
+    return cov_mat
+    
 # The following function recovers the covariance of Xs and rearranges it be compatible with the original ordering. 
-def getIntCovariances(meas_list, A, intervention_sets):
+def getIntCovariances(meas_list, indices_list, A, n_int, n_h, method='cvxpylayers'):
     covariance_list = list()
-    for Y, intervention_set in zip(meas_list, intervention_sets):
-        covariance_est_r = getCovariance(Y, A, method='exact_sol')
-        covariance_est = reorderCovariance(covariance_est_r, intervention_set)
-        covariance_list.append(covariance_est)
+    for Y_list, indices in zip(meas_list, indices_list):
+        int_covariance_list = list()
+        for Y, indice in zip(Y_list, indices):
+            covariance_est_r = getCovariance(Y, A, method=method)
+            covariance_est = reorderCovariance(covariance_est_r, indice)
+            int_covariance_list.append(covariance_est)
 
+        covariance_list.append(
+            process_int_covariances(int_covariance_list, indices, n_int, n_h)
+        )
 
+    return covariance_list
