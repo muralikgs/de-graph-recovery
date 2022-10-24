@@ -27,9 +27,7 @@ def covarianceEstimateTorch(A, Sig_Y, pen_coeff=0.5):
     return Sig_est.detach().cpu().numpy()
 
 
-# TODO implement a function that can choose between different covariance recovery methods
-def getCovariance(Y, A, method='cvxpy', pen_coeff=0.5):
-    Sig_Y = (1/Y.shape[0]) * Y.T @ Y
+def getCovariance(Sig_Y, A, method='cvxpy', pen_coeff=0.5):
     if method == 'cxvpy':
         Cov_est = covarianceEstimate(Sig_Y, A, pen_coeff)
     elif method == 'cvxpylayers':
@@ -57,12 +55,12 @@ def process_int_covariances(int_covariance_list, indices_list, n_int, n_h):
     return cov_mat
     
 # The following function recovers the covariance of Xs and rearranges it be compatible with the original ordering. 
-def getIntCovariances(meas_list, indices_list, A, n_int, n_h, method='cvxpylayers'):
+def getIntCovariances(y_cov_int_list, indices_list, A, n_int, n_h, method='cvxpylayers'):
     covariance_list = list()
-    for Y_list, indices in zip(meas_list, indices_list):
+    for Y_cov_list, indices in zip(y_cov_int_list, indices_list):
         int_covariance_list = list()
-        for Y, indice in zip(Y_list, indices):
-            covariance_est_r = getCovariance(Y, A, method=method)
+        for y_cov, indice in zip(Y_cov_list, indices):
+            covariance_est_r = getCovariance(y_cov, A, method=method)
             covariance_est = reorderCovariance(covariance_est_r, indice)
             int_covariance_list.append(covariance_est)
 

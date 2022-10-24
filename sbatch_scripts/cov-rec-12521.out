@@ -1,0 +1,29 @@
+---------------------------------------
+Begin Slurm Prolog: Oct-21-2022 09:10:36
+Job ID:    12521
+User ID:   msethuraman7
+Account:   gts-ff14
+Job name:  RunSythBench
+Partition: gpu-v100
+QOS:       inferno
+---------------------------------------
+Traceback (most recent call last):
+  File "/storage/coda1/p-ff14/0/msethuraman7/projects_murali/de-graph-recovery/recover_covariance_y_cov.py", line 45, in <module>
+    run_experiment(args)
+  File "/storage/coda1/p-ff14/0/msethuraman7/projects_murali/de-graph-recovery/recover_covariance_y_cov.py", line 16, in run_experiment
+    args.makedirs(args.dop)
+AttributeError: 'Namespace' object has no attribute 'makedirs'
+srun: error: atl1-1-03-006-35-0: task 0: Exited with exit code 1
+---------------------------------------
+Begin Slurm Epilog: Oct-21-2022 09:10:44
+Job ID:        12521
+Array Job ID:  _4294967294
+User ID:       msethuraman7
+Account:       gts-ff14
+Job name:      RunSythBench
+Resources:     cpu=12,gres/gpu:v100=1,mem=192G,node=1
+Rsrc Used:     cput=00:01:36,vmem=8K,walltime=00:00:08,mem=0,energy_used=0
+Partition:     gpu-v100
+QOS:           inferno
+Nodes:         atl1-1-03-006-35-0
+---------------------------------------

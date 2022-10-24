@@ -1,0 +1,32 @@
+---------------------------------------
+Begin Slurm Prolog: Oct-21-2022 10:10:23
+Job ID:    12550
+User ID:   msethuraman7
+Account:   gts-ff14
+Job name:  RunSythBench
+Partition: gpu-v100
+QOS:       inferno
+---------------------------------------
+Processing: 0/10
+Processing: 1/10
+Processing: 2/10
+Processing: 3/10
+Processing: 4/10
+Processing: 5/10
+Processing: 6/10
+Processing: 7/10
+Processing: 8/10
+Processing: 9/10
+---------------------------------------
+Begin Slurm Epilog: Oct-21-2022 10:10:41
+Job ID:        12550
+Array Job ID:  _4294967294
+User ID:       msethuraman7
+Account:       gts-ff14
+Job name:      RunSythBench
+Resources:     cpu=12,gres/gpu:v100=1,mem=192G,node=1
+Rsrc Used:     cput=04:51:36,vmem=5716K,walltime=00:24:18,mem=5708K,energy_used=0
+Partition:     gpu-v100
+QOS:           inferno
+Nodes:         atl1-1-03-006-35-0
+---------------------------------------

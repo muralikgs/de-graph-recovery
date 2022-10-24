@@ -131,6 +131,8 @@ class Dataset:
                                          in this case. 
                           'no-constraint' - targets are chosen randomly in each experiment
                                             with no further constraints.
+                          'block-node' - Each experiment intervenes on a fixed block of nodes
+                                         and all nodes are covered. 
     9)  abs_weight_low - (frac) - absolute least value of the edge weights. 
     10) abs_weight_high - (frac) - absolute largest value of the edge weights.  
     11) targets - (list(list)) - list of targets for each experiments, None if target_predef=False.
@@ -155,7 +157,7 @@ class Dataset:
         target_predef=False, 
         min_targets=1,
         max_targets=4,
-        mode='indiv-node',
+        mode='block-node',
         abs_weight_low=0.2,
         abs_weight_high=0.8,
         targets=None,
@@ -241,7 +243,7 @@ class Dataset:
     def _pick_targets(self, max_iterations=100000):
         
         iter = 0
-        if self.mode not in ['indiv-node', 'sat-pair-condition', 'no-constraint']:
+        if self.mode not in ['indiv-node', 'sat-pair-condition', 'no-constraint', 'block-node']:
             print(f"{self.mode} does not exist, defaulting to 'indiv-node'")
             self.mode = 'indiv-node'
 
@@ -249,6 +251,13 @@ class Dataset:
             assert self.n_experiments == self.n_nodes, f"expected {self.n_nodes}, got {self.n_experiments}"
             self.targets = [np.array([node]) for node in range(self.n_nodes)]
             self.pair_condition = True
+
+        elif self.mode == 'block-node':
+            assert self.n_experiments == self.n_nodes, f"expected {self.n_nodes}, got {self.n_experiments}"
+            v_set = list(range(self.n_nodes))
+            block_size = self.min_targets
+            self.targets = [np.array([v_set[i-j] for i in range(block_size)]) for j in range(self.n_nodes)]
+            self.pait_condition = True
 
         else:
             not_correct = True

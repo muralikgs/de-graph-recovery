@@ -1,0 +1,21 @@
+#PBS -N datagenscript               # name of job
+#PBS -A GT-ff14-ece                     # account to which job is charged, ex: GT-gburdell3
+#PBS -l nodes=1:ppn=2               # resources allocated, 1 node 2 processors
+#PBS -l pmem=4gb                    # memory per core
+#PBS -l walltime=04:00:00              # job will run at most 4 hours
+#PBS -q inferno                     # job is submitted to inferno queue
+#PBS -j oe                                                                                # output and error is combined into the same file
+#PBS -m abe                                                                               # Event notification set to start, finish or error, via email
+#PBS -M msethuraman7@gatech.edu     # email ID
+
+cd $PBS_O_WORKDIR                   # changes into directory where script was submitted from
+
+echo "Started on `/bin/hostname`"   # prints name of compute node job was started on
+
+cd ../
+echo " "
+
+source ~/.bashrc
+conda activate murali 
+
+python -m src.data.storeData $@

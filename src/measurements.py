@@ -47,21 +47,22 @@ def makeIntMeasurements(A, X, intervention_set, nh):
 
     indices_list = generateIndicesSets(intervention_set, X.shape[1], nh)
 
-    Y_list = list()
+    Y_cov_list = list()
     for indices in indices_list:
         X_r = X[:, indices]
         Y = X_r @ A.T
-        Y_list.append(Y)
+        cov = (1/Y.shape[0]) * Y.T @ Y
+        Y_cov_list.append(cov)
 
-    return Y_list, indices_list
+    return Y_cov_list, indices_list
 
 def makeMeasurements(A, dataset_x, intervention_sets, nh):
-    meas_list = list()
+    Y_cov_int_list = list()
     indices_list = list()
 
     for X, intervention_set in zip(dataset_x, intervention_sets):
-        Y, indices = makeIntMeasurements(A, X, np.array(intervention_set), nh)
-        meas_list.append(Y)
+        Y_cov_list, indices = makeIntMeasurements(A, X, np.array(intervention_set), nh)
+        Y_cov_int_list.append(Y_cov_list)
         indices_list.append(indices)
     
-    return meas_list, indices_list
+    return Y_cov_int_list, indices_list

@@ -1,0 +1,31 @@
+---------------------------------------
+Begin Slurm Prolog: Oct-21-2022 09:10:05
+Job ID:    12519
+User ID:   msethuraman7
+Account:   gts-ff14
+Job name:  RunSythBench
+Partition: gpu-v100
+QOS:       inferno
+---------------------------------------
+Traceback (most recent call last):
+  File "/storage/coda1/p-ff14/0/msethuraman7/projects_murali/de-graph-recovery/recover_covariance_y_cov.py", line 45, in <module>
+    run_experiment(args)
+  File "/storage/coda1/p-ff14/0/msethuraman7/projects_murali/de-graph-recovery/recover_covariance_y_cov.py", line 11, in run_experiment
+    A = np.load(os.path.join(args.dip), "sensing_matrix_de.npy")
+  File "/storage/home/hcoda1/8/msethuraman7/p-ff14-0/miniconda3/envs/cov-rec/lib/python3.10/site-packages/numpy/lib/npyio.py", line 390, in load
+    fid = stack.enter_context(open(os_fspath(file), "rb"))
+IsADirectoryError: [Errno 21] Is a directory: '/storage/home/hcoda1/8/msethuraman7/projects/pref_req_data/'
+srun: error: atl1-1-03-006-35-0: task 0: Exited with exit code 1
+---------------------------------------
+Begin Slurm Epilog: Oct-21-2022 09:10:14
+Job ID:        12519
+Array Job ID:  _4294967294
+User ID:       msethuraman7
+Account:       gts-ff14
+Job name:      RunSythBench
+Resources:     cpu=12,gres/gpu:v100=1,mem=192G,node=1
+Rsrc Used:     cput=00:01:48,vmem=8K,walltime=00:00:09,mem=0,energy_used=0
+Partition:     gpu-v100
+QOS:           inferno
+Nodes:         atl1-1-03-006-35-0
+---------------------------------------
